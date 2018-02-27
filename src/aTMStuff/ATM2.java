@@ -1,15 +1,26 @@
 package aTMStuff;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+
 public class ATM2 {
 	private int den100, den50, den20, den10, den5, den1;
+	private File outputFile;
+	private FileOutputStream outputStream;
+	private PrintWriter output;
 
-	public ATM2() {
+	public ATM2() throws FileNotFoundException {
 		den100 = 15;
 		den50 = 14;
 		den20 = 15;
 		den10 = 30;
 		den5 = 10;
 		den1 = 10;
+		outputFile = new File("src/aTMStuff/outputFile");
+		outputStream = new FileOutputStream(outputFile);
+		output = new PrintWriter(outputStream);
 		/*
 		 * balance =
 		 * (den100*100)+(den50*50)+(den20*20)+(den10*10)+(den5*5)+(den1*1);
@@ -26,16 +37,17 @@ public class ATM2 {
 	 */
 
 	public void outputBalance() {
-		System.out.println("Machine balance:");
-		System.out.println("$100- " + den100);
-		System.out.println("$50- " + den50);
-		System.out.println("$20- " + den20);
-		System.out.println("$10- " + den10);
-		System.out.println("$5- " + den5);
-		System.out.println("$1- " + den1);
+		output.println("Machine balance:");
+		output.println("$100- " + den100);
+		output.println("$50- " + den50);
+		output.println("$20- " + den20);
+		output.println("$10- " + den10);
+		output.println("$5- " + den5);
+		output.println("$1- " + den1);
 	}
 
 	public String doStuff(String decides) {
+
 		switch (decides.charAt(0)) {
 		case 'R':
 			den100 = 10;
@@ -83,28 +95,28 @@ public class ATM2 {
 			}
 			String numberWord = decides.substring(indexStart, indexEnd);
 			int number = Integer.parseInt(numberWord);
-			System.out.println(number);
-			while (number - 100 >= 0&&den100>0) {
+			output.println(number);
+			while (number - 100 >= 0 && den100 > 0) {
 				number -= 100;
 				den100--;
 			}
-			while (number - 50 >= 0&&den50>0) {
+			while (number - 50 >= 0 && den50 > 0) {
 				number -= 50;
 				den50--;
 			}
-			while (number - 20 >= 0&&den20>0) {
+			while (number - 20 >= 0 && den20 > 0) {
 				number -= 20;
 				den20--;
 			}
-			while (number - 10 >= 0&&den10>0) {
+			while (number - 10 >= 0 && den10 > 0) {
 				number -= 10;
 				den10--;
 			}
-			while (number - 5 >= 0&&den5>0) {
+			while (number - 5 >= 0 && den5 > 0) {
 				number -= 5;
 				den5--;
 			}
-			while (number - 1 >= 0&&den1>0) {
+			while (number - 1 >= 0 && den1 > 0) {
 				number -= 1;
 				den1--;
 			}
@@ -122,43 +134,45 @@ public class ATM2 {
 						indexEndI = count;
 						String done1 = decides.substring(indexStartI, indexEndI);
 						if (Integer.parseInt(done1) == 100)
-							System.out.println("$100- " + den100);
+							output.println("$100- " + den100);
 						if (Integer.parseInt(done1) == 50)
-							System.out.println("$50- " + den50);
+							output.println("$50- " + den50);
 						if (Integer.parseInt(done1) == 20)
-							System.out.println("$20- " + den20);
+							output.println("$20- " + den20);
 						if (Integer.parseInt(done1) == 10)
-							System.out.println("$10- " + den10);
+							output.println("$10- " + den10);
 						if (Integer.parseInt(done1) == 5)
-							System.out.println("$5- " + den5);
+							output.println("$5- " + den5);
 						if (Integer.parseInt(done1) == 1)
-							System.out.println("$1- " + den1);
+							output.println("$1- " + den1);
 					}
 				}
 				if (count == decides.length() - 1) {
 					String done1 = decides.substring(indexStartI);
 					if (Integer.parseInt(done1) == 100)
-						System.out.println("$100- " + den100);
+						output.println("$100- " + den100);
 					if (Integer.parseInt(done1) == 50)
-						System.out.println("$50- " + den50);
+						output.println("$50- " + den50);
 					if (Integer.parseInt(done1) == 20)
-						System.out.println("$20- " + den20);
+						output.println("$20- " + den20);
 					if (Integer.parseInt(done1) == 10)
-						System.out.println("$10- " + den10);
+						output.println("$10- " + den10);
 					if (Integer.parseInt(done1) == 5)
-						System.out.println("$5- " + den5);
+						output.println("$5- " + den5);
 					if (Integer.parseInt(done1) == 1)
-						System.out.println("$1- " + den1);
+						output.println("$1- " + den1);
 				}
 			}
 			return "Hi";
 		case 'Q':
-			System.out.println("Exiting Application");
+			output.println("Exiting Application");
 			return "Done";
 		default:
-			System.out.println("Failure: Invalid Command");
+			output.println("Failure: Invalid Command");
 			return "Hi";
 		}
 	}
-
+	public void closeIt(){
+		output.close();
+	}
 }
